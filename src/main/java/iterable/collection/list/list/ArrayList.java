@@ -1,4 +1,4 @@
-package iterable.collection;
+package iterable.collection.list.list;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
