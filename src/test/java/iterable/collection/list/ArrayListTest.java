@@ -1,5 +1,4 @@
 package iterable.collection.list;
-import iterable.collection.list.list.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
