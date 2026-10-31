@@ -2,6 +2,7 @@ package iterable.collection.queue;
 
 import java.util.AbstractQueue;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Queue<E> extends AbstractQueue<E> {
     QueueNode<E> head;
@@ -17,12 +18,12 @@ public class Queue<E> extends AbstractQueue<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new QueueIterator();
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
@@ -55,6 +56,22 @@ public class Queue<E> extends AbstractQueue<E> {
     @Override
     public E peek() {
         return head != null ? head.value : null;
+    }
+
+    private class QueueIterator implements Iterator<E> {
+        QueueNode<E> current = Queue.this.head;
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public E next() {
+            if (current == null) throw new NoSuchElementException("Конец очереди");
+            E value = current.value;
+            current = current.next;
+            return value;
+        }
     }
 
     private static class QueueNode<E> {
