@@ -52,8 +52,27 @@ public class Deque<E> implements Iterable<E> {
     }
 
     public E peek() {
-        if (isEmpty()) return null;
-        return tail.value;
+        return isEmpty() ? null : tail.value;
+    }
+
+    public boolean offer(E o) {
+        return push(o);
+    }
+
+    public E poll() {
+        if (head == null) return null;
+
+        E item = head.value;
+        head = head.next;
+        size--;
+
+        if (head == null) {
+            tail = null;
+        } else {
+            head.prev = null;
+        }
+
+        return item;
     }
 
     public int size() {
@@ -63,7 +82,6 @@ public class Deque<E> implements Iterable<E> {
     public boolean isEmpty() {
         return size == 0;
     }
-
 
     @Override
     public Iterator<E> iterator() {
