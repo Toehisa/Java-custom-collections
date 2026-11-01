@@ -120,4 +120,46 @@ class DequeTest {
 
         assertThrows(NoSuchElementException.class, singleElementIterator::next, "Ожидается исключение при выходе за границы коллекции");
     }
+
+    @Test
+    @DisplayName("offer() и poll() должны работать как классическая очередь (FIFO)")
+    void testOfferAndPoll_FifoBehavior() {
+        // Добавляем элементы в очередь
+        assertTrue(deque.offer("First"));
+        assertTrue(deque.offer("Second"));
+        assertTrue(deque.offer("Third"));
+
+        assertEquals(3, deque.size());
+
+        // Извлекаем элементы. В отличие от pop(), poll() должен забирать с начала (head)
+        assertEquals("First", deque.poll());
+        assertEquals("Second", deque.poll());
+        assertEquals("Third", deque.poll());
+
+        assertNull(deque.poll(), "Очередь пуста, должен вернуться null");
+        assertTrue(deque.isEmpty());
+    }
+
+    @Test
+    @DisplayName("poll() не должен падать на пустой коллекции")
+    void testPollOnEmptyCollection() {
+        assertNull(deque.poll());
+        assertEquals(0, deque.size());
+    }
+
+    @Test
+    @DisplayName("Смешанное использование методов стека и очереди должно работать корректно")
+    void testMixedDequeOperations() {
+        deque.offer("A"); // Стал head и tail
+        deque.push("B");  // Стал новым tail
+
+        assertEquals(2, deque.size());
+
+        assertEquals("A", deque.poll()); // Забрали head (A)
+        assertEquals("B", deque.pop());  // Забрали tail (B)
+
+        assertTrue(deque.isEmpty());
+        assertNull(deque.head, "Голова должна занулиться");
+        assertNull(deque.tail, "Хвост должен занулиться");
+    }
 }
